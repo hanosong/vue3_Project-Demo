@@ -1,27 +1,35 @@
 <script setup lang="ts">
-  import { toRef, reactive } from 'vue';
-  // toRef: 只能修改响应式对象的值，非响应式视图毫无变化；
-  // 应用场景：用于响应式对象，单独操作某个属性 => 函数入参需要某个属性
-  // 解决：使用reactive包裹对象
-  // const man = {name: "haha", age: 24};
-  const man = reactive({name: "haha", age: 24}); // 返回一个proxy对象
-  const age = toRef(man, "age");
+  import { ref, computed } from 'vue';
+  let firstName = ref("捞");
+  let lastName = ref("工");
+  // 1. 选项式写法，支持一个对象，传入get函数以及set函数自定义操作
+  /* let name = computed<string> ({
+    get(){
+      return firstName.value + '-'+lastName.value
+    },
+    set(newName){
+      [firstName.value, lastName.value] = newName.split('-')
+    },
+  })
+  const clickHandle = () => {name.value = '小-哈'} */
 
-  const clickHandle = () => {
-    age.value = 100;
-    console.log(age.value, 'age') // 100
-  }
+  // 2.函数式写法：只能支持一个getter，不允许修改值
+  let name = computed(() => firstName.value + '-' +lastName.value)
+
 </script>
 
 <template>
   <div>
-   {{man}}---
+   姓：<input v-model="firstName" type="text"/>
   </div>
   <div>
-    toRef -- {{ age }}
+   名：<input v-model="lastName" type="text"/>
   </div>
   <div>
-    <button @click="clickHandle">修改信息</button>
+   全名：{{name }}
+  </div>
+  <div>
+    <!-- <button @click="clickHandle">触发set</button> -->
   </div>
 </template>
 
