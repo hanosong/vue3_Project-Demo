@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import Son from './components/Son.vue'
+const _defindProps = defineProps<{
+  title: string,
+}>()
 </script>
 
 <template>
   <div>
-    <Son title="传给Son的标题"></Son>
+    Son:{{ title }}
   </div>
 </template>
 
